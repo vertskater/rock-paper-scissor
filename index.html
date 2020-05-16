@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rock-paper-scissor</title>
+</head>
+
+<body>
+    <script>
+        let pScore = 0;
+        let cScore = 0;
+        function computerPlay() {
+            let ran = Math.floor((Math.random() * 3) + 1);
+
+            let rpc = ["rock", "paper", "scissor"];
+
+            switch (ran) {
+                case 1:
+                    return rpc[0];
+                case 2:
+                    return rpc[1];
+                case 3:
+                    return rpc[2];
+            }
+        }
+        function playRound(playerSelection, computerSelection) {
+            switch (playerSelection) {
+                case "rock":
+                    if (computerSelection == "rock") {
+                        console.log("Even! Nobody wins")
+                    } else if (computerSelection == "paper") {
+                        console.log("You Lose! " + computerSelection + " beats " + playerSelection)
+                        cScore += 1;
+                    } else if (computerSelection == "scissor") {
+                        console.log("You Win! " + playerSelection + " beats " + computerSelection)
+                        pScore += 1;
+                    }
+                    break;
+                case "paper":
+                    if (computerSelection == "paper") {
+                        console.log("Even! Nobody wins")
+                    } else if (computerSelection == "scissor") {
+                        console.log("You Lose! " + computerSelection + " beats " + playerSelection)
+                        cScore += 1;
+                    } else if (computerSelection == "rock") {
+                        console.log("You Win! " + playerSelection + " beats " + computerSelection)
+                        pScore += 1;
+                    }
+                    break;
+                case "scissor":
+                    if (computerSelection == "scissor") {
+                        console.log("Even! Nobody wins")
+                    } else if (computerSelection == "rock") {
+                        console.log("You Lose! " + computerSelection + " beats " + playerSelection)
+                        cScore += 1;
+                    } else if (computerSelection == "paper") {
+                        console.log("You Win! " + playerSelection + " beats " + computerSelection)
+                        pScore += 1;
+                    }
+                    break;
+            }
+        }
+        function game() {
+
+            for (let i = 1; i <= 5; i++) {
+                let computerSelection = computerPlay();
+                let playerSelection = prompt("What'll you play?" + "\n" + "rock, paper or scissor?")
+                playerSelection = playerSelection.toLowerCase();
+
+                playRound(playerSelection, computerSelection);
+                console.log("You won " + pScore + " games.")
+            }
+            if (pScore > cScore) {
+                console.log("You won the Gameseries")
+            }else{
+                console.log("You lost the Gameseries")
+            }
+        }
+        
+        game();
+
+    </script>
+</body>
+
+</html>
