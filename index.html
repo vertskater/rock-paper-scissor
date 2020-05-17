@@ -4,14 +4,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/7c1106c071.js" crossorigin="anonymous"></script>
+    <link type="text/css" rel="stylesheet" href="style.css">
     <title>rock-paper-scissor</title>
 </head>
 
 <body>
-    <h1>Open The Browser Console (F12)</h1>
+    <div class="heading">
+        <h1>Rock | Paper | Scissor</h1>
+    </div>
+    <div class="container">
+        <div class="scoreboard">
+            <h3 class="player">Player</h3>
+            <p id="pscore"></p>
+            <h3 class="computer">Computer</h3>
+            <p id="cscore"></p>
+        </div>
+        <div class="choises">
+            <div class="rock animation" id="rock">
+                <i class="far fa-hand-rock"></i>
+            </div>
+            <div class="paper animation2" id="paper">
+                <i class="far fa-hand-paper"></i>
+            </div>
+            <div class="scissor animation3" id="scissor">
+                <i class="far fa-hand-scissors"></i>
+            </div>
+        </div>
+        <div class="info" id="info">
+            <p class="info-text" id="info-text"></p>
+        </div>
+    </div>
+
     <script>
         let pScore = 0;
         let cScore = 0;
+        let elementPscore = document.getElementById('pscore');
+        let elementCscore = document.getElementById('cscore');
+        let rock = document.getElementById('rock');
+        let paper = document.getElementById('paper');
+        let scissor = document.getElementById('scissor');
+        let output = document.getElementById('info-text');
+        let playerSelection;
+        let result = "";
+
+        function animation() {
+            rock.classList.remove('animation')
+            setTimeout(() => {
+                rock.classList.add('animation');
+            }, 5);
+
+        }
+        function animation2() {
+            paper.classList.remove('animation2')
+            setTimeout(() => {
+                paper.classList.add('animation2');
+            }, 5);
+
+        }
+        function animation3() {
+            scissor.classList.remove('animation3')
+            setTimeout(() => {
+                scissor.classList.add('animation3');
+            }, 5);
+
+        }
+        rock.addEventListener('click', (e) => {
+            animation();
+
+            playerSelection = 'rock';
+            if (pScore < 5 && cScore < 5) {
+                let computerSelection = computerPlay();
+                playRound(playerSelection, computerSelection);
+            } else {
+                if (pScore == 5) {
+                    output.textContent = "End of Game - Congratulation You Win";
+                }else{
+                    output.textContent = "End of Game - You Lose!";
+                }
+            }
+
+        }, false)
+        paper.addEventListener('click', (e) => {
+            animation2();
+
+            playerSelection = 'paper';
+            if (pScore < 5 && cScore < 5) {
+                let computerSelection = computerPlay();
+                playRound(playerSelection, computerSelection);
+            } else {
+                if (pScore = 5) {
+                    output.textContent = "End of Game - Congratulation You Win";
+                }else{
+                    output.textContent = "End of Game - You Lose!";
+                }
+            }
+
+        }, false)
+        scissor.addEventListener('click', (e) => {
+            animation3();
+
+            playerSelection = 'scissor';
+            if (pScore < 5 && cScore < 5) {
+                let computerSelection = computerPlay();
+                playRound(playerSelection, computerSelection);
+            } else {
+                if (pScore = 5) {
+                    output.textContent = "End of Game - Congratulation You Win";
+                }else{
+                    output.textContent = "End of Game - You Lose!";
+                }
+            }
+
+        }, false)
         function computerPlay() {
             let ran = Math.floor((Math.random() * 3) + 1);
 
@@ -30,57 +135,49 @@
             switch (playerSelection) {
                 case "rock":
                     if (computerSelection == "rock") {
-                        console.log("Even! Nobody wins")
+                        output.textContent = "Even! Nobody wins";
                     } else if (computerSelection == "paper") {
-                        console.log("You Lose! " + computerSelection + " beats " + playerSelection)
+                        output.textContent = "You Lose! " + computerSelection + " beats " + playerSelection;
                         cScore += 1;
+                        elementCscore.textContent = cScore;
                     } else if (computerSelection == "scissor") {
-                        console.log("You Win! " + playerSelection + " beats " + computerSelection)
+                        output.textContent = "You Win! " + playerSelection + " beats " + computerSelection;
                         pScore += 1;
+                        elementPscore.textContent = pScore;
                     }
                     break;
                 case "paper":
                     if (computerSelection == "paper") {
-                        console.log("Even! Nobody wins")
+                        output.textContent = "Even! Nobody wins"
                     } else if (computerSelection == "scissor") {
-                        console.log("You Lose! " + computerSelection + " beats " + playerSelection)
+                        output.textContent = "You Lose! " + computerSelection + " beats " + playerSelection;
                         cScore += 1;
+                        elementCscore.textContent = cScore;
                     } else if (computerSelection == "rock") {
-                        console.log("You Win! " + playerSelection + " beats " + computerSelection)
+                        output.textContent = "You Win! " + playerSelection + " beats " + computerSelection;
                         pScore += 1;
+                        elementPscore.textContent = pScore;
                     }
                     break;
                 case "scissor":
                     if (computerSelection == "scissor") {
-                        console.log("Even! Nobody wins")
+                        output.textContent = "Even! Nobody wins"
                     } else if (computerSelection == "rock") {
-                        console.log("You Lose! " + computerSelection + " beats " + playerSelection)
+                        output.textContent = "You Lose! " + computerSelection + " beats " + playerSelection
                         cScore += 1;
+                        elementCscore.textContent = cScore;
                     } else if (computerSelection == "paper") {
-                        console.log("You Win! " + playerSelection + " beats " + computerSelection)
+                        output.textContent = "You Win! " + playerSelection + " beats " + computerSelection
                         pScore += 1;
+                        elementPscore.textContent = pScore;
                     }
                     break;
             }
         }
-        function game() {
 
-            for (let i = 1; i <= 5; i++) {
-                let computerSelection = computerPlay();
-                let playerSelection = prompt("What'll you play?" + "\n" + "rock, paper or scissor?")
-                playerSelection = playerSelection.toLowerCase();
 
-                playRound(playerSelection, computerSelection);
-                console.log("You won " + pScore + " games.")
-            }
-            if (pScore > cScore) {
-                console.log("You won the Gameseries")
-            }else{
-                console.log("You lost the Gameseries")
-            }
-        }
-        
-        game();
+
+        //game();
 
     </script>
 </body>
