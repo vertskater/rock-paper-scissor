@@ -17,7 +17,7 @@
         <div class="scoreboard">
             <h3 class="player">Player</h3>
             <p id="pscore"></p>
-            <h3 class="computer">Computer</h3>
+            <h3 class="computer" id="computer">Computer</h3>
             <p id="cscore"></p>
         </div>
         <div class="choises">
@@ -34,19 +34,25 @@
         <div class="info" id="info">
             <p class="info-text" id="info-text"></p>
         </div>
+        <div class="reset">
+            <button id="reset">Reset</button>
+        </div>
     </div>
 
     <script>
         let pScore = 0;
         let cScore = 0;
+        let info = document.getElementById('info');
         let elementPscore = document.getElementById('pscore');
         let elementCscore = document.getElementById('cscore');
         let rock = document.getElementById('rock');
         let paper = document.getElementById('paper');
         let scissor = document.getElementById('scissor');
         let output = document.getElementById('info-text');
+        let computerPlayed = document.getElementById('computer');
         let playerSelection;
-        let result = "";
+        //let result = "";
+        let btnReset = document.getElementById('reset');
 
         function animation() {
             rock.classList.remove('animation')
@@ -79,8 +85,10 @@
             } else {
                 if (pScore == 5) {
                     output.textContent = "End of Game - Congratulation You Win";
-                }else{
+                    info.style.backgroundColor = '#5DFF75'
+                } else {
                     output.textContent = "End of Game - You Lose!";
+                    info.style.backgroundColor = '#FF978C'
                 }
             }
 
@@ -93,10 +101,12 @@
                 let computerSelection = computerPlay();
                 playRound(playerSelection, computerSelection);
             } else {
-                if (pScore = 5) {
+                if (pScore == 5) {
                     output.textContent = "End of Game - Congratulation You Win";
-                }else{
+                    info.style.backgroundColor = '#5DFF75'
+                } else {
                     output.textContent = "End of Game - You Lose!";
+                    info.style.backgroundColor = '#FF978C'
                 }
             }
 
@@ -109,10 +119,12 @@
                 let computerSelection = computerPlay();
                 playRound(playerSelection, computerSelection);
             } else {
-                if (pScore = 5) {
+                if (pScore == 5) {
                     output.textContent = "End of Game - Congratulation You Win";
-                }else{
+                    info.style.backgroundColor = '#5DFF75'
+                } else {
                     output.textContent = "End of Game - You Lose!";
+                    info.style.backgroundColor = '#FF978C'
                 }
             }
 
@@ -124,12 +136,17 @@
 
             switch (ran) {
                 case 1:
+                    computerPlayed.innerHTML = "Computer <i class='far fa-hand-rock'></i>";
                     return rpc[0];
+
                 case 2:
+                    computerPlayed.innerHTML = "Computer <i class='far fa-hand-paper'></i>";
                     return rpc[1];
                 case 3:
+                    computerPlayed.innerHTML = "Computer <i class='far fa-hand-scissors'></i>";
                     return rpc[2];
             }
+
         }
         function playRound(playerSelection, computerSelection) {
             switch (playerSelection) {
@@ -176,8 +193,15 @@
         }
 
 
-
-        //game();
+        reset.addEventListener('click', ()=>{
+            cScore = 0;
+            pScore = 0;
+            elementPscore.textContent = "0";
+            elementCscore.textContent = "0";
+            computerPlayed.innerHTML = "Computer";
+            output.textContent = "";
+            info.style.backgroundColor = 'lightblue';
+        },false);   
 
     </script>
 </body>

@@ -112,6 +112,18 @@ body {
           box-shadow: -4px -4px 5px 0px rgba(0, 0, 0, 0.3);
 }
 
+.container .reset {
+  text-align: center;
+}
+
+.container .reset button {
+  width: 150px;
+  height: 50px;
+  background-color: lightcoral;
+  border: solid 5px gray;
+  color: white;
+}
+
 .container .animation,
 .container .animation2,
 .container .animation3 {
