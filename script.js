@@ -2,6 +2,8 @@
 
 let pScore = 0;
 let cScore = 0;
+
+//init DOM-Elements
 let info = document.getElementById('info');
 let elementPscore = document.getElementById('pscore');
 let elementCscore = document.getElementById('cscore');
@@ -10,149 +12,122 @@ let paper = document.getElementById('paper');
 let scissor = document.getElementById('scissor');
 let output = document.getElementById('info-text');
 let computerPlayed = document.getElementById('computer');
-let playerSelection;
 let btnReset = document.getElementById('reset');
 
-function animationRock() {
-    rock.classList.remove('animation')
+
+function animateElement(item) {
+    item.classList.remove('animation')
     setTimeout(() => {
-        rock.classList.add('animation');
+        item.classList.add('animation');
     }, 5);
-
 }
-function animationPaper() {
-    paper.classList.remove('animation2')
-    setTimeout(() => {
-        paper.classList.add('animation2');
-    }, 5);
 
-}
-function animationScissor() {
-    scissor.classList.remove('animation3')
-    setTimeout(() => {
-        scissor.classList.add('animation3');
-    }, 5);
-
-}
-rock.addEventListener('click', (e) => {
-    animationRock();
-
-    playerSelection = 'rock';
-    if (pScore < 5 && cScore < 5) {
-        let computerSelection = computerPlay();
-        playRound(playerSelection, computerSelection);
-    } else {
-        if (pScore == 5) {
-            output.textContent = "End of Game - Congratulation You Win";
-            info.style.backgroundColor = '#5DFF75'
-        } else {
-            output.textContent = "End of Game - You Lose!";
-            info.style.backgroundColor = '#FF978C'
+function gameController() {
+    if (pScore >= 5 || cScore >= 5) {
+        if (pScore > cScore) {
+            output.textContent = 'You Won!';
+            info.style.backgroundColor = '#00ff00';
+            setTimeout(() => {
+                resetAll()
+            }, 1000);
+        }
+        if (pScore < cScore) {
+            output.textContent = 'You Lose!';
+            info.style.backgroundColor = '#ff0000';
+            setTimeout(() => {
+                resetAll()
+            }, 1000);
+        }
+        if (pScore === cScore) {
+            output.textContent = 'Even, Nobody wins!';
+            info.style.backgroundColor = '#0000ff';
+            setTimeout(() => {
+                resetAll()
+            }, 1000);
         }
     }
 
-}, false)
-paper.addEventListener('click', (e) => {
-    animationPaper();
+}
 
-    playerSelection = 'paper';
-    if (pScore < 5 && cScore < 5) {
-        let computerSelection = computerPlay();
-        playRound(playerSelection, computerSelection);
-    } else {
-        if (pScore == 5) {
-            output.textContent = "End of Game - Congratulation You Win";
-            info.style.backgroundColor = '#5DFF75'
-        } else {
-            output.textContent = "End of Game - You Lose!";
-            info.style.backgroundColor = '#FF978C'
-        }
-    }
+rock.addEventListener('click', () => {
+    animateElement(rock);
+    let playerSelection = 'rock';
+    let computerSelection = computerPlay();
+    showComputerPlay(computerSelection);
+    playRound(playerSelection, computerSelection);
+    gameController();
 
-}, false)
-scissor.addEventListener('click', (e) => {
-    animationScissor();
+})
+paper.addEventListener('click', () => {
+    animateElement(paper);
+    let playerSelection = 'paper';
+    let computerSelection = computerPlay();
+    showComputerPlay(computerSelection);
+    playRound(playerSelection, computerSelection);
+    gameController();
+})
+scissor.addEventListener('click', () => {
+    animateElement(scissor);
+    let playerSelection = 'scissor';
+    let computerSelection = computerPlay();
+    showComputerPlay(computerSelection);
+    playRound(playerSelection, computerSelection);
+    gameController();
+})
 
-    playerSelection = 'scissor';
-    if (pScore < 5 && cScore < 5) {
-        let computerSelection = computerPlay();
-        playRound(playerSelection, computerSelection);
-    } else {
-        if (pScore == 5) {
-            output.textContent = "End of Game - Congratulation You Win";
-            info.style.backgroundColor = '#5DFF75'
-        } else {
-            output.textContent = "End of Game - You Lose!";
-            info.style.backgroundColor = '#FF978C'
-        }
-    }
-
-}, false)
 function computerPlay() {
-    let ran = Math.floor((Math.random() * 3) + 1);
-
-    let rpc = ["rock", "paper", "scissor"];
-
-    switch (ran) {
-        case 1:
-            computerPlayed.innerHTML = "Computer <i class='far fa-hand-rock'></i>";
-            return rpc[0];
-
-        case 2:
-            computerPlayed.innerHTML = "Computer <i class='far fa-hand-paper'></i>";
-            return rpc[1];
-        case 3:
-            computerPlayed.innerHTML = "Computer <i class='far fa-hand-scissors'></i>";
-            return rpc[2];
+    let random = Math.floor(Math.random() * 3);
+    if (random === 0) return 'rock';
+    if (random === 1) return 'paper';
+    if (random === 2) return 'scissor';
+}
+function showComputerPlay(selection) {
+    if (selection === 'scissor') {
+        computerPlayed.innerHTML = 'Computer <i class="far fa-hand-scissors"></i>'
+    }else if(selection === 'rock'){
+        computerPlayed.innerHTML = 'Computer <i class="far fa-hand-rock"></i>'
+    }else if(selection === 'paper'){
+        computerPlayed.innerHTML = 'Computer <i class="far fa-hand-paper"></i>'
     }
+}
 
+
+function winInfo(playerSelection, computerSelection) {
+    output.textContent = "You Win! " + playerSelection + " beats " + computerSelection;
+    pScore += 1;
+    elementPscore.textContent = pScore;
+}
+function loseInfo(playerSelection, computerSelection) {
+    output.textContent = "You Lose! " + computerSelection + " beats " + playerSelection;
+    cScore += 1;
+    elementCscore.textContent = cScore;
+}
+function evenInfo() {
+    output.textContent = "Even! Nobody wins";
 }
 function playRound(playerSelection, computerSelection) {
-    switch (playerSelection) {
-        case "rock":
-            if (computerSelection == "rock") {
-                output.textContent = "Even! Nobody wins";
-            } else if (computerSelection == "paper") {
-                output.textContent = "You Lose! " + computerSelection + " beats " + playerSelection;
-                cScore += 1;
-                elementCscore.textContent = cScore;
-            } else if (computerSelection == "scissor") {
-                output.textContent = "You Win! " + playerSelection + " beats " + computerSelection;
-                pScore += 1;
-                elementPscore.textContent = pScore;
-            }
-            break;
-        case "paper":
-            if (computerSelection == "paper") {
-                output.textContent = "Even! Nobody wins"
-            } else if (computerSelection == "scissor") {
-                output.textContent = "You Lose! " + computerSelection + " beats " + playerSelection;
-                cScore += 1;
-                elementCscore.textContent = cScore;
-            } else if (computerSelection == "rock") {
-                output.textContent = "You Win! " + playerSelection + " beats " + computerSelection;
-                pScore += 1;
-                elementPscore.textContent = pScore;
-            }
-            break;
-        case "scissor":
-            if (computerSelection == "scissor") {
-                output.textContent = "Even! Nobody wins"
-            } else if (computerSelection == "rock") {
-                output.textContent = "You Lose! " + computerSelection + " beats " + playerSelection
-                cScore += 1;
-                elementCscore.textContent = cScore;
-            } else if (computerSelection == "paper") {
-                output.textContent = "You Win! " + playerSelection + " beats " + computerSelection
-                pScore += 1;
-                elementPscore.textContent = pScore;
-            }
-            break;
+    if (playerSelection === 'rock') {
+        if (computerSelection === 'scissor') { winInfo(playerSelection, computerSelection) };
+        if (computerSelection === 'rock') { evenInfo() };
+        if (computerSelection === 'paper') { loseInfo(playerSelection, computerSelection) };
+    }
+    if (playerSelection === 'paper') {
+        if (computerSelection === 'scissor') { loseInfo(playerSelection, computerSelection) };
+        if (computerSelection === 'rock') { winInfo(playerSelection, computerSelection) };
+        if (computerSelection === 'paper') { evenInfo() };
+    }
+    if (playerSelection === 'scissor') {
+        if (computerSelection === 'scissor') { evenInfo() };
+        if (computerSelection === 'rock') { loseInfo(playerSelection, computerSelection) };
+        if (computerSelection === 'paper') { winInfo(playerSelection, computerSelection) };
     }
 }
 
+reset.addEventListener('click', () => {
+    resetAll()
+});
 
-reset.addEventListener('click', ()=>{
+function resetAll() {
     cScore = 0;
     pScore = 0;
     elementPscore.textContent = "0";
@@ -160,4 +135,4 @@ reset.addEventListener('click', ()=>{
     computerPlayed.innerHTML = "Computer";
     output.textContent = "";
     info.style.backgroundColor = 'lightblue';
-},false);
+}
